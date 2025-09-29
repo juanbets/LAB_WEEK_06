@@ -9,8 +9,9 @@ import com.example.lab_week_06.model.CatBreed
 import com.example.lab_week_06.model.Gender
 
 class CatViewHolder(
-    containerView: View,
-    private val imageLoader: ImageLoader
+    private val containerView: View,
+    private val imageLoader: ImageLoader,
+    private val onClickListener: CatAdapter.OnClickListener
 ) : RecyclerView.ViewHolder(containerView) {
 
     private val catBiographyView: TextView by lazy {
@@ -30,6 +31,11 @@ class CatViewHolder(
     }
 
     fun bindData(cat: CatModel) {
+        // Klik delegasi ke adapter
+        containerView.setOnClickListener {
+            onClickListener.onItemClick(cat)
+        }
+
         imageLoader.loadImage(cat.imageUrl, catPhotoView)
         catNameView.text = cat.name
         catBreedView.text = when (cat.breed) {
